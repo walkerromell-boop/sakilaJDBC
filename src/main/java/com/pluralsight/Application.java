@@ -8,26 +8,30 @@ public class Application {
         String username = args[0];
         String password = args[1];
 
+
+        //define your query
+        String query = "SELECT city FROM city ";
         // open connection to database
         Connection connection = DriverManager.getConnection(url, username, password);
 
 
-    // create statement
-    // the statement is tied to the open connection
-        Statement statement = connection.createStatement();
+        // create statement
+        // the statement is tied to the open connection
+        PreparedStatement statement = connection.prepareStatement(query);
 
-    //define your query
-        String query = "SELECT city FROM city ";
-    // 2. Execute your query
-        ResultSet results = statement.executeQuery(query);
-    // process the results
+
+        // 2. Execute your query
+        ResultSet results = statement.executeQuery();
+        // process the results
         while (results.next()) {
             String city = results.getString("city");
             System.out.println(city);
         }
-    // 3. Close the connection
+        // 3. Close the connection
+//        connection.close();
+//        System.out.println(results);
+        results.close();
+        statement.close();
         connection.close();
-        System.out.println(results);
-
     }
 }
